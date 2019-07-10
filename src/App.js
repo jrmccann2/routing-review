@@ -1,26 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {Component} from 'react';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import {HashRouter} from 'react-router-dom'
+import routes from './routes'
+import Header from './Components/Header'
+
+
+class App extends Component {
+  constructor(){
+    super()
+
+    this.state = {
+      list: [],
+      listItemName: "",
+      listItemDueDate: ""
+    }
+  }
+
+  handleChange = (event) => {
+    this.setState({[event.target.name]: event.target.value})
+  }
+
+  handleSubmit = () => {
+    const { listItemName, listItemDueDate, list } = this.state
+    this.setState({list: [...list, { listItemName, listItemDueDate }]})
+  }
+
+  render(){
+
+    return (
+        <HashRouter>
+          <Header
+            handleChange={this.handleChange}
+            handleSubmit={this.handleSubmit}
+            list={this.state.list}
+          />
+          {routes}
+        </HashRouter>
+    );
+
+  }
 }
 
 export default App;
